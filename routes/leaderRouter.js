@@ -16,8 +16,9 @@ get((req, res, next) => {
     .catch((err) => next(err));
 }).
 post((req, res, next) => {
-    Leaders.create()
+    Leaders.create(req.body)
     .then((leader) => {
+        console.log('Leader created', leader);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(leader);
@@ -40,7 +41,7 @@ delete((req, res, next) => {
 
 leaderRouter.route('/:leaderId')
 .get((req, res, next) => {
-    Leaders.findById()
+    Leaders.findById(req.params.leaderId)
     .then((leader) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -62,7 +63,7 @@ leaderRouter.route('/:leaderId')
     .catch((err) => next(err));
 })
 .delete((req, res, next) =>{
-    Leaders.findOneAndRemove()
+    Leaders.findOneAndRemove(req.params.leaderId)
     .then((leader) =>{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
