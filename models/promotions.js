@@ -22,7 +22,8 @@ const promotionSchema = new Schema(
 
         price : {
             type : Currency,
-            required : true
+            required : true,
+            min : 0
         },
 
         description : {
@@ -34,6 +35,10 @@ const promotionSchema = new Schema(
             type : Boolean,
             required : true
         }
+    },
+    
+    {
+        timestamps : true
     }
 );
 
