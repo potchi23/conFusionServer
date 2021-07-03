@@ -6,6 +6,7 @@ const authenticate = require('../authenticate');
 
 /* GET users listing. */
 router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, async (req, res, next) => {
+    //Using 'async-await' way of writing code, instead of promises (much cleaner in my opinion)
     try{
         let users = await User.find({});
 
