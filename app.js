@@ -13,13 +13,24 @@ const usersRouter = require('./routes/users');
 const dishRouter = require('./routes/dishRouter');
 const promotionRouter = require('./routes/promotionRouter');
 const leaderRouter = require('./routes/leaderRouter');
+const uploadRouter = require('./routes/uploadRouter');
 
 const mongoose = require('mongoose');
 const Dishes = require('./models/dishes');
 const config = require("./config");
 
 const url = config.mongoUrl;
-const connect = mongoose.connect(url);
+
+const mongooseOptions = {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useFindAndModify : false, 
+    useCreateIndex : true 
+}
+
+const connect = mongoose.connect(url, mongooseOptions);
+
+
 
 connect.then((db) => {
     console.log("Connected to server");
@@ -55,6 +66,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dishes', dishRouter);
 app.use('/promotions', promotionRouter);
 app.use('/leaders', leaderRouter);
+app.use('/imageUpload', uploadRouter);
+
 
 
 // catch 404 and forward to error handler
