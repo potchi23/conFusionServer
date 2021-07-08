@@ -3,9 +3,11 @@ const router = express.Router();
 const User = require('../models/users');
 const passport = require('passport');
 const authenticate = require('../authenticate');
+const cors = require('./cors');
 
 /* GET users listing. */
-router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, async (req, res, next) => {
+
+router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, async (req, res, next) => {
     //Using 'async-await' way of writing code, instead of promises (much cleaner in my opinion)
     try{
         let users = await User.find({});
@@ -22,7 +24,7 @@ router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, async (req, r
     }
 });
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', cors.corsWithOptions, async (req, res, next) => {
 
     //Something new I wanted to try with async-await
     try{
@@ -58,14 +60,14 @@ router.post('/signup', async (req, res, next) => {
 
 });
 
-router.post('/login', passport.authenticate('local'), (req, res, next) => {
+router.post('/login', cors.corsWithOptions, passport.authenticate('local'), (req, res, next) => {
     const token = authenticate.getToken({_id : req.user._id});
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json({success : true, token : token, status : 'You are logged in!'});
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', cors.corsWithOptions, (req, res, next) => {
     if(req.session){
         req.session.destroy();
         res.clearCookie('session-id');
