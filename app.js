@@ -19,6 +19,7 @@ const favoritesRouter = require('./routes/favoritesRouter');
 const mongoose = require('mongoose');
 const Dishes = require('./models/dishes');
 const config = require("./config");
+const commentsRouter = require('./routes/commentsRouter')
 
 const url = config.mongoUrl;
 
@@ -69,6 +70,8 @@ app.use('/promotions', promotionRouter);
 app.use('/leaders', leaderRouter);
 app.use('/imageUpload', uploadRouter);
 app.use('/favorites', favoritesRouter);
+app.use('/comments', commentsRouter);
+
 
 
 
